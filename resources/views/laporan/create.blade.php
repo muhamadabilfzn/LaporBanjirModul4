@@ -1,32 +1,43 @@
 @extends('layouts.app')
 
-@section('title', 'Form Pelaporan')
+@section('title', 'Form Pelaporan Banjir')
 
 @section('content')
-    <div class="box">
-        <h2>Form Pelaporan Banjir</h2>
-        <p>Isi data berikut untuk melaporkan kejadian banjir di wilayah Anda.</p>
+<h2>Form Pelaporan Banjir</h2>
 
-        @if ($errors->any())
-            <x-alert type="danger">Terdapat kesalahan pada isian form. Silakan periksa kembali.</x-alert>
-        @endif
+@if ($errors->any())
+    <x-alert type="danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </x-alert>
+@endif
 
-        <form action="{{ route('laporan.store') }}" method="POST">
-            @csrf
+<form action="{{ route('laporan.store') }}" method="POST">
+    @csrf
 
-            <label for="nama">Nama Pelapor</label>
-            <input type="text" id="nama" name="nama" value="{{ old('nama') }}" placeholder="Contoh: Asep Sunandar">
-            @error('nama') <div class="error">{{ $message }}</div> @enderror
-
-            <label for="lokasi">Lokasi Kejadian</label>
-            <input type="text" id="lokasi" name="lokasi" value="{{ old('lokasi') }}" placeholder="Contoh: Dayeuhkolot, Kab. Bandung">
-            @error('lokasi') <div class="error">{{ $message }}</div> @enderror
-
-            <label for="tinggi_genangan">Tinggi Genangan Air (cm)</label>
-            <input type="number" id="tinggi_genangan" name="tinggi_genangan" value="{{ old('tinggi_genangan') }}" min="0" placeholder="Contoh: 45">
-            @error('tinggi_genangan') <div class="error">{{ $message }}</div> @enderror
-
-            <button type="submit" class="btn">Kirim Laporan</button>
-        </form>
+    <div>
+        <label for="nama_pelapor">Nama Pelapor</label>
+        <input type="text" id="nama_pelapor" name="nama_pelapor" value="{{ old('nama_pelapor') }}" required>
     </div>
+
+    <div>
+        <label for="lokasi">Lokasi (Kecamatan)</label>
+        <input type="text" id="lokasi" name="lokasi" value="{{ old('lokasi') }}" required>
+    </div>
+
+    <div>
+        <label for="tinggi_genangan">Tinggi Genangan (cm)</label>
+        <input type="number" id="tinggi_genangan" name="tinggi_genangan" value="{{ old('tinggi_genangan') }}" min="1" required>
+    </div>
+
+    <div>
+        <label for="tanggal_kejadian">Tanggal Kejadian</label>
+        <input type="date" id="tanggal_kejadian" name="tanggal_kejadian" value="{{ old('tanggal_kejadian') }}" required>
+    </div>
+
+    <button type="submit">Kirim Laporan</button>
+</form>
 @endsection

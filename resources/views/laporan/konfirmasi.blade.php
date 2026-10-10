@@ -1,22 +1,15 @@
 @extends('layouts.app')
 
-@section('title', 'Konfirmasi Laporan')
+@section('title', 'Laporan Terkirim')
 
 @section('content')
-    <x-alert type="success">
-        <strong>Berhasil!</strong> Laporan banjir Anda telah dikirim. Terima kasih telah melapor.
-    </x-alert>
+<x-alert type="success">
+    Terima kasih, {{ $laporan->nama_pelapor }}! Laporan banjir di
+    <strong>{{ $laporan->lokasi }}</strong> (tinggi genangan {{ $laporan->tinggi_genangan }} cm)
+    pada {{ \Carbon\Carbon::parse($laporan->tanggal_kejadian)->translatedFormat('d F Y') }}
+    berhasil disimpan.
+</x-alert>
 
-    <div class="box">
-        <h2>Data Laporan yang Dikirim</h2>
-        <table class="detail">
-            <tr><td>Nama Pelapor</td><td>{{ $laporan['nama'] }}</td></tr>
-            <tr><td>Lokasi Kejadian</td><td>{{ $laporan['lokasi'] }}</td></tr>
-            <tr><td>Tinggi Genangan</td><td>{{ $laporan['tinggi_genangan'] }} cm</td></tr>
-            <tr><td>Waktu Pengiriman</td><td>{{ $laporan['waktu'] }}</td></tr>
-        </table>
-
-        <a href="{{ route('laporan.create') }}" class="btn">Buat Laporan Baru</a>
-        <a href="{{ route('laporan.index') }}" class="btn">Lihat Daftar Laporan</a>
-    </div>
+<a href="{{ route('laporan.index') }}">Lihat Daftar Laporan</a>
+<a href="{{ route('laporan.create') }}">Kirim Laporan Lain</a>
 @endsection
